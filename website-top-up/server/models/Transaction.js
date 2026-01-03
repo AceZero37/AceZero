@@ -29,7 +29,6 @@ const transactionSchema = new mongoose.Schema({
 
 // Add index for faster queries
 transactionSchema.index({ discordId: 1 });
-transactionSchema.index({ transactionId: 1 });
 transactionSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);
