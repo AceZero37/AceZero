@@ -8,7 +8,7 @@ const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
 
 const app = express();
-const PORT = process.env.TOPUP_PORT || 3001;
+const PORT = process.env.PORT || process.env.TOPUP_PORT || 3001;
 
 // Middleware
 app.use(cors({
