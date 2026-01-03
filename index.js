@@ -10,6 +10,7 @@ const {
 
 const { detectMessage } = require('./msc/Handler/detectMessage');
 const { initializeUserIds } = require('./msc/Handler/userManage');
+const { startPaymentScheduler } = require('./msc/paymentScheduler');
 
 // --- Create client with intents
 const client = new Client({
@@ -74,6 +75,9 @@ client.once(Events.ClientReady, async (c) => {
       },
     ],
   });
+
+  // Start payment verification scheduler
+  startPaymentScheduler();
 });
 
 // --- Basic error logging
