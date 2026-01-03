@@ -4,6 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
 
 function Cart({ user, cart, removeFromCart, clearCart, showToast, onPaymentComplete }) {
+    const [paymentData, setPaymentData] = useState(null);
+    const [paymentStatus, setPaymentStatus] = useState(null);
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const [timer, setTimer] = useState(0);
+    const [checkingPayment, setCheckingPayment] = useState(false);
+    const navigate = useNavigate();
 
     // Calculations
     const totalGold = cart.reduce((sum, item) => sum + (item.totalGold * item.quantity), 0);
