@@ -1,0 +1,16 @@
+services:
+  # Backend Service
+  - type: web
+    name: hemiko-backend
+    env: node
+    region: singapore # Optional: Choose closest region
+    buildCommand: npm install && cd website-top-up/server && npm install
+    startCommand: node website-top-up/server/index.js
+    envVars:
+      - key: DB
+        fromDatabase:
+          name: hemiko-db # Or sync from .env manually in dashboard
+          property: connectionString
+      - key: NODE_ENV
+        value: production
+      # Add other env vars like BAKONG_TOKEN here via Dashboard or sync
