@@ -17,11 +17,19 @@ try {
 
 const mongoose = require('mongoose');
 
-// Bakong Configuration
-const BAKONG_TOKEN = process.env.BAKONG_TOKEN;
-const BAKONG_ACCOUNT = process.env.BAKONG_ACCOUNT || 'sovan_narith@wing';
-const BAKONG_NAME = process.env.BAKONG_NAME || 'Hemiko Gold Shop';
-const BAKONG_CITY = process.env.BAKONG_CITY || 'Phnom Penh';
+// Bakong Configuration - Try both possible token names
+const BAKONG_TOKEN = process.env.BAKONG_TOKEN || process.env.BAKONG_API_TOKEN;
+const BAKONG_ACCOUNT = process.env.BAKONG_ACCOUNT || process.env.BAKONG_ACCOUNT_NUMBER || 'sovan_narith@wing';
+const BAKONG_NAME = process.env.BAKONG_NAME || process.env.BAKONG_MERCHANT_NAME || 'Hemiko Gold Shop';
+const BAKONG_CITY = process.env.BAKONG_CITY || process.env.BAKONG_MERCHANT_CITY || 'Phnom Penh';
+
+// Log config on startup (hide token for security)
+console.log('[Bakong] Config loaded:', {
+    hasToken: !!BAKONG_TOKEN,
+    account: BAKONG_ACCOUNT,
+    name: BAKONG_NAME,
+    city: BAKONG_CITY
+});
 
 // Generate unique transaction ID
 const generateTransactionId = () => {

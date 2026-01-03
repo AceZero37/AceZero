@@ -305,19 +305,6 @@ function Cart({ user, cart, removeFromCart, clearCart, showToast, onPaymentCompl
                                     >
                                         {checkingPayment ? '⏳ Checking...' : '✅ I Have Paid'}
                                     </button>
-
-                                    {/* Dev Helper - Remove in production */}
-                                    <button
-                                        className="btn btn-secondary btn-sm"
-                                        style={{ width: '100%', marginTop: '8px', opacity: 0.7 }}
-                                        onClick={() => {
-                                            setPaymentStatus('completed');
-                                            showToast('🧪 Simulation: Payment Completed', 'success');
-                                            clearCart();
-                                        }}
-                                    >
-                                        🧪 Simulate Success
-                                    </button>
                                 </>
                             )}
 
