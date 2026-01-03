@@ -16,8 +16,16 @@ const mongoose = require('mongoose');
 // Discord OAuth2 Configuration
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
-const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI || 'http://localhost:3001/api/auth/callback';
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI || (isProduction
+    ? 'https://hemiko-backend.onrender.com/api/auth/callback'
+    : 'http://localhost:3001/api/auth/callback');
+
+const FRONTEND_URL = process.env.FRONTEND_URL || (isProduction
+    ? 'https://ace-zero.vercel.app'
+    : 'http://localhost:5173');
 
 // Generate Discord OAuth URL
 router.get('/login', (req, res) => {
