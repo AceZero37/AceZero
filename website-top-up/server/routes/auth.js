@@ -13,19 +13,11 @@ try {
 
 const mongoose = require('mongoose');
 
-// Discord OAuth2 Configuration
+// Discord OAuth2 Configuration - PRODUCTION ONLY
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
-
-const isProduction = process.env.NODE_ENV === 'production';
-
-const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI || (isProduction
-    ? 'https://hemiko-backend.onrender.com/api/auth/callback'
-    : 'http://localhost:3001/api/auth/callback');
-
-const FRONTEND_URL = process.env.FRONTEND_URL || (isProduction
-    ? 'https://ace-zero.vercel.app'
-    : 'http://localhost:5173');
+const DISCORD_REDIRECT_URI = 'https://hemiko-backend.onrender.com/api/auth/callback';
+const FRONTEND_URL = 'https://ace-zero.vercel.app';
 
 // Generate Discord OAuth URL
 router.get('/login', (req, res) => {
@@ -80,7 +72,7 @@ router.get('/callback', async (req, res) => {
         // Create session data
         const sessionData = {
             id: discordUser.id,
-            discordId: discordUser.id, // Also include as discordId for payment API
+            discordId: discordUser.id,
             username: discordUser.username,
             globalName: discordUser.global_name || discordUser.username,
             avatar: discordUser.avatar
@@ -152,7 +144,7 @@ router.get('/balance/:discordId', async (req, res) => {
     }
 });
 
-// Logout (client-side handles this)
+// Logout
 router.get('/logout', (req, res) => {
     res.redirect(FRONTEND_URL);
 });

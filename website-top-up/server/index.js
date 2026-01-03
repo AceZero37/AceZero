@@ -8,12 +8,11 @@ const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
 
 const app = express();
-const PORT = process.env.PORT || process.env.TOPUP_PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
-// Middleware
-const isProduction = process.env.NODE_ENV === 'production';
+// PRODUCTION CORS - Always allow production frontend
 app.use(cors({
-    origin: process.env.FRONTEND_URL || (isProduction ? 'https://ace-zero.vercel.app' : 'http://localhost:5173'),
+    origin: 'https://ace-zero.vercel.app',
     credentials: true
 }));
 app.use(express.json());
@@ -60,7 +59,6 @@ app.get('/api', (req, res) => {
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`🪙 Hemiko Gold Top-Up Server running on port ${PORT}`);
-        console.log(`📍 API: http://localhost:${PORT}/api`);
     });
 });
 
