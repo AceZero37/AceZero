@@ -140,13 +140,13 @@ function Cart({ user, cart, removeFromCart, clearCart, showToast, onPaymentCompl
                 } catch (e) { }
 
             } else if (data.status === 'pending') {
-                showToast('Payment not detected yet. Please wait...', 'info');
+                showToast('⏳ Payment verification in progress. This may take 1-2 minutes after payment.', 'info');
             } else {
                 showToast(`Payment status: ${data.status}`, 'info');
             }
         } catch (error) {
             console.error('Payment check error:', error);
-            showToast('Failed to check payment status', 'error');
+            showToast('Checking payment... Please wait and try again.', 'info');
         } finally {
             setCheckingPayment(false);
         }
@@ -305,6 +305,22 @@ function Cart({ user, cart, removeFromCart, clearCart, showToast, onPaymentCompl
                                     >
                                         {checkingPayment ? '⏳ Checking...' : '✅ I Have Paid'}
                                     </button>
+
+                                    <div style={{
+                                        marginTop: '16px',
+                                        padding: '12px',
+                                        background: 'rgba(255,255,255,0.05)',
+                                        borderRadius: '8px',
+                                        fontSize: '12px',
+                                        textAlign: 'center'
+                                    }}>
+                                        <p style={{ color: 'var(--text-secondary)', marginBottom: '8px' }}>
+                                            Transaction ID: <strong style={{ color: 'var(--text-primary)' }}>{paymentData.transactionId}</strong>
+                                        </p>
+                                        <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
+                                            Payment not confirmed after 2 min? <a href="https://discord.gg/fQFajk8cxS" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>Contact Support</a>
+                                        </p>
+                                    </div>
                                 </>
                             )}
 
