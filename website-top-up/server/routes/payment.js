@@ -31,6 +31,46 @@ console.log('[Bakong] Config loaded:', {
     city: BAKONG_CITY
 });
 
+// Debug endpoint to test Bakong API connectivity
+router.get('/debug/bakong-test', async (req, res) => {
+    const results = {
+        hasToken: !!BAKONG_TOKEN,
+        tokenLength: BAKONG_TOKEN ? BAKONG_TOKEN.length : 0,
+        account: BAKONG_ACCOUNT,
+        tests: {}
+    };
+
+    // Test 1: Check a fake MD5 to see if API responds
+    try {
+        const testResponse = await axios.post(
+            'https://api-bakong.nbc.gov.kh/v1/check_transaction_by_md5',
+            { md5: 'test123456789' },
+            {
+                headers: {
+                    Authorization: `Bearer ${BAKONG_TOKEN}`,
+                    'Content-Type': 'application/json',
+                },
+                timeout: 15000,
+            }
+        );
+        results.tests.md5Check = {
+            success: true,
+            responseCode: testResponse.data.responseCode,
+            message: testResponse.data.responseMessage || 'API responded',
+            data: testResponse.data
+        };
+    } catch (error) {
+        results.tests.md5Check = {
+            success: false,
+            error: error.message,
+            status: error.response?.status,
+            data: error.response?.data
+        };
+    }
+
+    res.json(results);
+});
+
 // Generate unique transaction ID
 const generateTransactionId = () => {
     return `HMK-${Date.now()}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
